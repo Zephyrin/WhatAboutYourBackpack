@@ -1,0 +1,78 @@
+
+// import material icon from local directory
+// install via npm install material-design-icons J'ai l'impression que c'est le
+// même que celui en dessous. Pour le moment inutile. À voir si on le supprime
+// Ajout de nouveaux icones
+//@import '~material-design-icons/iconfont/material-icons.css';
+// install via npm install material-icons
+@import '~material-icons/iconfont/material-icons.css';
+
+// Roboto fontface intsall via npm install roboto-fontface
+@import "~roboto-fontface/css/roboto/roboto-fontface.css";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@mdi/font/css/materialdesignicons.css';
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+/* @import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto'
+);
+@include mat-core($custom-typography);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$brakolu-primary: mat-palette($mat-yellow, A50, A100, A400);
+$brakolu-accent: mat-palette($mat-purple, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$brakolu-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$brakolu-theme: mat-light-theme($brakolu-primary, $brakolu-accent, $brakolu-warn);
+
+$custom-background-color: #fff6e8;
+$background: map-get($brakolu-theme, background);
+$background: map_merge($background, (background: $custom-background-color));
+$brakolu-theme: map_merge($brakolu-theme, (background: $background));
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($brakolu-theme);
+ */
+/* You can add global styles to this file, and also import other style files */
+
+html { scroll-behavior: smooth; }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.flex-reverse {
+  display: flex;
+  flex-flow: row-reverse;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Todo à mettre dans des fichiers que l'on comprendra par la suite...
+.inline-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

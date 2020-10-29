@@ -1,0 +1,96 @@
+<form [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field class="full-width">
+      <input matInput
+             required
+             #login
+             placeholder="Nom d'utilisateur"
+             formControlName="username" />
+      <mat-error *ngIf="submitted && f.username.errors">
+        <div *ngIf="f.username.errors.required">Le nom d'utilisateur est requis</div>
+      </mat-error>
+      <mat-error *ngIf="submitted && errors.get('username')">
+        <div *ngFor="let child of errors.get('username')">
+          {{child}}
+        </div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Gender</mat-label>
+      <mat-select formControlName="gender"
+                  #gender
+                  name="Gender">
+        <mat-option *ngFor="let key of genderKeys"
+                    [value]="key">
+          {{genders[key]|titlecase}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="hasError('gender')">
+        <div *ngIf="f.gender.errors?.required">Gender is required</div>
+      </mat-error>
+      <mat-error *ngIf="serverError('gender')">
+        {{errors.errors['gender'].errors[0]}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput
+             required
+             #login
+             placeholder="Email"
+             formControlName="email" />
+      <mat-error *ngIf="submitted && f.email.errors">
+        <div *ngIf="f.email.errors.required">L'email est requis</div>
+      </mat-error>
+      <mat-error *ngIf="submitted && errors.get('email')">
+        <div *ngFor="let child of errors.get('email')">
+          {{child}}
+        </div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput
+             required
+             #password
+             placeholder="Mot de passe"
+             [type]="hide ? 'password' : 'text'"
+             formControlName="password" />
+      <button mat-icon-button
+              matSuffix
+              type="button"
+              role="button"
+              (click)="hide = !hide"
+              [matTooltip]="hide ? 'Afficher le mot de passe' : 'Cacher le mot de passe'"
+              [attr.aria-label]="hide ? 'Afficher le mot de passe' : 'Cacher le mot de passe'"
+              [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="submitted && f.password.errors">
+        <div *ngIf="f.password.errors.required">Le mot de passe est requis</div>
+      </mat-error>
+      <mat-error *ngIf="submitted && errors.get('password')">
+        <div *ngFor="let child of errors.get('password')">
+          {{child}}
+        </div>
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div mat-dialog-actions>
+    <button mat-raised-button
+            [disabled]="loading"
+            color="primary"
+            type="submit">
+      <span *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"></span>
+      <span matListIcon
+            class="mdi mdi-floppy"></span> S'enregistrer
+    </button>
+  </div>
+</form>
+<span class="d-flex justify-content-center align-items-center">
+  Tu as un compte ?
+  <a routerLink="/signin"
+     [queryParams]="{returnUrl: returnRoute}"
+     mat-button><span matListIcon
+          class="mdi mdi-login"></span> Connecte toi !</a>
+</span>

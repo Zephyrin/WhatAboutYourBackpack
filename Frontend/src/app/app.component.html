@@ -1,0 +1,99 @@
+<mat-sidenav-container class="sidenav-container"
+                       fullscreen>
+  <mat-sidenav #drawer
+               class="sidenav"
+               [fixedInViewport]="(isHandset$ | async) === false"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false">
+
+    <mat-toolbar>
+      <img matListIcon
+           *ngIf="(isHandset$ | async)"
+           alt="Way B ? Menu"
+           src="assets/way.b.ico"
+           style="height: 2em" /> Menu
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <a mat-list-item
+         routerLinkActive="active-link"
+         class="hover-link left-menu"
+         [routerLinkActiveOptions]="{ exact: true}"
+         routerLink="backpacks">
+        <span matListIcon
+              class="mdi mdi-bag-personal"></span>Sac à dos
+      </a>
+
+      <a mat-list-item
+         routerLinkActive="active-link"
+         class="hover-link left-menu"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLink="equipments">
+        <span matListIcon
+              class="mdi mdi-hiking"></span>Équipements
+      </a>
+
+      <a mat-list-item
+         routerLinkActive="active-link"
+         class="hover-link left-menu"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLink="categories">
+        <span matListIcon
+              class="mdi mdi-format-list-bulleted-type"></span>Catégories
+      </a>
+
+      <a mat-list-item
+         routerLinkActive="active-link"
+         class="hover-link left-menu"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLink="brands">
+        <span matListIcon
+              class="mdi mdi-copyright"></span>Marques
+      </a>
+      <a mat-list-item
+         routerLinkActive="active-link"
+         class="hover-link left-menu"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLink="signin">
+        <span matListIcon
+              class="mdi mdi-login"></span>Connexion
+      </a>
+      <a mat-list-item
+         routerLinkActive="active-link"
+         class="hover-link left-menu"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLink="signup">
+        <span matListIcon
+              class="mdi mdi-floppy"></span>Enregistration :)
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              class="btn-way-b-tool"
+              (click)="drawer.toggle()"
+              *ngIf="(isHandset$ | async)"
+              matTooltip="Affiche le menu Way B ?">
+        <img matListIcon
+             alt="Way B ?"
+             src="assets/way.b.ico"
+             style="height: 3em" />
+        Way b ?
+      </button>
+      <span class="title"
+            *ngIf="(isHandset$ | async) === false">
+        <img src="./assets/way.b.png"
+             style="height: 2em" />
+        What about your backpack ?
+      </span>
+    </mat-toolbar>
+    <main class="mt-md-2 ml-md-2 mr-md-2 mb-md-2">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

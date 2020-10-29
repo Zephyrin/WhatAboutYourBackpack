@@ -1,0 +1,11 @@
+<p mat-dialog-title>Suppression de {{title}}</p>
+<div mat-dialog-content>
+  Es-tu sûre de vouloir supprimer {{title}} ?
+</div>
+<div mat-dialog-actions
+     class="d-flex flex-row-reverse">
+  <button mat-button
+          (click)="onSubmit()">Oui</button>
+  <button mat-button
+          (click)="onNoClick()">Non</button>
+</div>

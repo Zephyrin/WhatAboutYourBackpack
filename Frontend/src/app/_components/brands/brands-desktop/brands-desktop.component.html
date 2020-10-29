@@ -1,0 +1,14 @@
+<div class="tab">
+  <div class="auto">
+    <div class="inline-header">
+      <button mat-button
+              (click)="openCreateDialog()"
+              [matTooltip]="'Ajouter une nouvelle marque'">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+    <app-table [service]="service"
+               #Table></app-table>
+    <app-pagination [paginate]="service.paginate"></app-pagination>
+  </div>
+</div>

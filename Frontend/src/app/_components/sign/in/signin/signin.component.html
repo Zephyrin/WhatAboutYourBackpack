@@ -1,0 +1,57 @@
+<form [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()">
+  <mat-card-content>
+    <mat-form-field class="full-width">
+      <input matInput
+             required
+             #login
+             placeholder="Nom d'utilisateur"
+             formControlName="username" />
+      <mat-error *ngIf="submitted && f.username.errors">
+        <div *ngIf="f.username.errors.required">Le nom d'utilisateur est requis</div>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput
+             required
+             #password
+             placeholder="Mot de passe"
+             [type]="hide ? 'password' : 'text'"
+             formControlName="password" />
+      <button mat-icon-button
+              matSuffix
+              type="button"
+              role="button"
+              (click)="hide = !hide"
+              [matTooltip]="hide ? 'Afficher le mot de passe' : 'Cacher le mot de passe'"
+              [attr.aria-label]="hide ? 'Afficher le mot de passe' : 'Cacher le mot de passe'"
+              [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="submitted && f.password.errors">
+        <div *ngIf="f.password.errors.required">Le mot de passe est requis</div>
+      </mat-error>
+    </mat-form-field>
+    <div *ngIf="submitted && error.hasMessage"
+         class="alert alert-warning full-width">
+      <div>{{error.message}}</div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button
+            [disabled]="loading"
+            color="primary"
+            type="submit">
+      <span *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"></span>
+      <span matListIcon
+            class="mdi mdi-login"></span> Connection
+    </button>
+  </mat-card-actions>
+</form>
+<span class="d-flex justify-content-center align-items-center mt-3">
+  Tu n'as pas de compte ? <a routerLink="/signup"
+     [queryParams]="{returnUrl: returnRoute }"
+     mat-button><span matListIcon
+          class="mdi mdi-floppy"></span> enregistre toi !</a>
+</span>
