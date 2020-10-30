@@ -82,6 +82,11 @@ export interface IService {
   hasError(name: string): boolean;
 
   /**
+   * Construit et retourne l'url de la string.
+   */
+  getUrl(uri: string): string;
+
+  /**
    * Récupère l'erreur de l'attribut name dans le formulaire form.
    *
    * @param name Le nom de l'attribut qui possède une erreur.
@@ -253,6 +258,11 @@ export abstract class CService<T> implements IService {
   public getError(name: string): string {
     return this.errors.get(name);
   }
+
+  public getUrl(uri: string): string {
+    return /^http(s)?:\/\//.test(uri) ? uri : 'https://' + uri;
+  }
+
   public hasErrors(): boolean {
     return this.errors.hasAtLeastOne;
   }
