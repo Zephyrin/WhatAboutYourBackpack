@@ -17,10 +17,12 @@ export class BrandsService extends CService<Brand> {
   }
 
   public initEnums(): void {
-    this.headers.push({ value: 'name', viewValue: 'Nom' });
-    this.headers.push({ value: 'uri', viewValue: 'Adresse' });
-    this.displayedColumns.push('name');
-    this.displayedColumns.push('uri');
+    if (this.headers.length === 0) {
+      this.headers.push({ value: 'name', viewValue: 'Nom' });
+      this.headers.push({ value: 'uri', viewValue: 'Adresse' });
+      this.displayedColumns.push('name');
+      this.displayedColumns.push('uri');
+    }
     this.initEnumDone.next(true);
   }
 

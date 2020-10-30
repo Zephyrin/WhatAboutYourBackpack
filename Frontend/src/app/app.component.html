@@ -55,6 +55,7 @@
          routerLinkActive="active-link"
          class="hover-link left-menu"
          [routerLinkActiveOptions]="{ exact: true }"
+         *ngIf="!currentUser"
          routerLink="signin">
         <span matListIcon
               class="mdi mdi-login"></span>Connexion
@@ -63,9 +64,18 @@
          routerLinkActive="active-link"
          class="hover-link left-menu"
          [routerLinkActiveOptions]="{ exact: true }"
+         *ngIf="!currentUser"
          routerLink="signup">
         <span matListIcon
               class="mdi mdi-floppy"></span>Enregistration :)
+      </a>
+      <a mat-list-item
+         routerLinkActive="active-link"
+         class="hover-link left-menu"
+         *ngIf="currentUser"
+         (click)="logout()">
+        <span matListIcon
+              class="mdi mdi-logout"></span>Déconnexion
       </a>
     </mat-nav-list>
   </mat-sidenav>

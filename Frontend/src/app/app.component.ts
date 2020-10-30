@@ -1,3 +1,5 @@
+import { AuthenticationService } from '@app/_services';
+import { User } from '@app/_models';
 import { Router, NavigationEnd, ActivatedRoute, NavigationStart, NavigationError } from '@angular/router';
 import { map, shareReplay, withLatestFrom, filter } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
@@ -13,6 +15,7 @@ import { MatSidenav } from '@angular/material/sidenav';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  currentUser: User;
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
   returnUrl: string;
@@ -26,9 +29,14 @@ export class AppComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private authService: AuthenticationService
   ) {
+    this.authService.currentUser.subscribe(
+      x => this.currentUser = x
+    );
   }
+
   ngOnInit(): void {
     this.router.events.pipe(
       withLatestFrom(this.isHandset$),
@@ -49,5 +57,10 @@ export class AppComponent implements OnInit {
         console.warn(event.error);
       }
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

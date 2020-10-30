@@ -23,7 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         //}
         if (err.url !== `${environment.apiUrl}/auth/login_check`) {
           this.authenticationService.logout();
-          this.router.navigate(['/signin']);
+          this.router.navigate(['/signin'], { queryParams: { returnUrl: location.pathname } });
           //location.reload();
         }
       }
