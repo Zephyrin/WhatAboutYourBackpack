@@ -9,6 +9,7 @@ export class Category {
     if (category) {
       this.id = category.id;
       this.name = category.name;
+      this.parent = category.parent;
       if (category.subCategories) {
         category.subCategories.forEach(elt => {
           const child = new Category(elt);
@@ -21,13 +22,9 @@ export class Category {
 
   toJSON(useId = false) {
     const data = {};
-    if (useId && this.id) { data[`id`] = this.id; }
+    if (useId === true && this.id) { data[`id`] = this.id; }
     if (this.name) { data[`name`] = this.name; }
-    if (this.subCategories) {
-      const children = new Array();
-      this.subCategories.forEach(child => children.push(child.toJSON(true)));
-      data[`subCategories`] = children;
-    }
+    if (this.parent) { data[`parent`] = this.parent.toJSON(true); }
     return data;
   }
 }

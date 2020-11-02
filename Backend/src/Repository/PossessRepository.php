@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Possess;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use FOS\RestBundle\Request\ParamFetcher;
 
 /**
  * @method Possess|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PossessRepository extends ServiceEntityRepository
 {
+    use AbstractRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Possess::class);
+    }
+
+    public function findAllPagination(ParamFetcher $paramFetcher)
+    {
+        $search = $paramFetcher->get('search');
+        $query = $this->createQueryBuilder('e');
+        if ($search != null)
+            $query = $query->andWhere(
+                '(LOWER(e.name) LIKE :search OR LOWER(e.uri) LIKE :search)'
+            )
+                ->setParameter('search', "%" . addcslashes(strtolower($search), '%_') . '%');
+        return $this->resultCount($query, $paramFetcher);
     }
 
     // /**

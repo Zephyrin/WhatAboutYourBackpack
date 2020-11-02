@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use FOS\RestBundle\Request\ParamFetcher;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    use AbstractRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+    public function findAllPagination(ParamFetcher $paramFetcher)
+    {
+        $search = $paramFetcher->get('search');
+        $query = $this->createQueryBuilder('e');
+        if ($search != null)
+            $query = $query->andWhere(
+                '(LOWER(e.username) LIKE :search OR LOWER(e.email) LIKE :search)'
+            )
+                ->setParameter('search', "%" . addcslashes(strtolower($search), '%_') . '%');
+        return $this->resultCount($query, $paramFetcher);
     }
 
     public function findUserByUsernameOrEmail(string $username)

@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -30,6 +31,7 @@ class Category
     private $parent;
 
     /**
+     * @SerializedName("subCategories")
      * @ORM\OneToMany(targetEntity=Category::class, mappedBy="parent")
      */
     private $subCategories;

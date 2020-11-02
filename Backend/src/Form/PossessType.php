@@ -14,14 +14,15 @@ class PossessType extends AbstractType
         $builder
             ->add('wish')
             ->add('user')
-            ->add('equipment')
-        ;
+            ->add('equipment');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Possess::class,
+            'allow_extra_fields' => false,
+            'csrf_protection'    => false,
         ]);
     }
 }

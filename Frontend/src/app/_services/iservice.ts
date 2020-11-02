@@ -20,6 +20,11 @@ export interface IService {
    * Les données sous forme de tableau.
    */
   model: any;
+
+  /**
+   * Une donnée sélectionnée dans le tableau.
+   */
+  selected: any;
   /**
    * Le formulaire de création.
    */
@@ -156,6 +161,7 @@ export interface ValueViewChild {
 export abstract class CService<T> implements IService {
   //#region Attributes IService
   public model: T[];
+  public selected: T | undefined;
   public loading = new Subject<boolean>();
   public loadingSource = false;
   public errors = new FormErrors();
@@ -307,7 +313,7 @@ export abstract class CService<T> implements IService {
     return true;
   }
 
-  protected end(wasUpdate: boolean, serverError?: any | undefined) {
+  protected end(wasUpdate: boolean, serverError?: any | undefined, value?: T | undefined) {
     if (serverError) {
       this.errors.formatError(serverError);
       if (this.form && serverError.error?.errors) {
@@ -328,11 +334,16 @@ export abstract class CService<T> implements IService {
     } else if (wasUpdate) {
       this.errors = new FormErrors();
       this.workingOn = undefined;
+      if (value) {
+        this.endUpdateOk(value);
+      }
       this.endUpdate.next(true);
     }
     this.loadingSource = false;
     this.loading.next(this.loadingSource);
   }
+
+  protected endUpdateOk(value: T | undefined) { }
 
   protected updateOrCreate(model: T) {
     const name = 'id';
@@ -340,16 +351,16 @@ export abstract class CService<T> implements IService {
       const dataToSent = this.createCpy(model);
       this.http.create(dataToSent).subscribe(data => {
         this.model.push(this.createCpy(data));
-        this.end(true);
+        this.end(true, undefined, model);
       }, error => {
         this.end(true, error);
       });
     } else {
-      this.http.update(model[name].toString(), model).subscribe(data => {
+      this.http.update(model[name].toString(), this.createCpy(model)).subscribe(data => {
         Object.keys(model).forEach(key => {
           this.workingOn[key] = model[key];
         });
-        this.end(true);
+        this.end(true, undefined, model);
       }, error => {
         this.end(true, error);
       });

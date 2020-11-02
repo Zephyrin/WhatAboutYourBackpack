@@ -15,14 +15,15 @@ class CharacteristicType extends AbstractType
             ->add('name')
             ->add('value')
             ->add('equipment')
-            ->add('parent')
-        ;
+            ->add('parent');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Characteristic::class,
+            'allow_extra_fields' => false,
+            'csrf_protection'    => false,
         ]);
     }
 }

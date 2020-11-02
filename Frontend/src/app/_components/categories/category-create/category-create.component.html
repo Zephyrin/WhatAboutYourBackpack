@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Catégorie<span class="mdi mdi-format-list-bulleted-type"></span></h1>
+<form [formGroup]="service.form"
+      *ngIf="service.form"
+      (ngSubmit)="onSubmitClick()">
+  <mat-dialog-content>
+    <fieldset [disabled]="service.loadingSource"
+              [ngStyle]="{'pointer-events':service.loadingSource ? 'none' : 'auto' }">
+      <mat-form-field class="full-width">
+        <mat-label>Catégorie parent <span class="mdi mdi-google-circles-group"></span></mat-label>
+        <mat-select formControlName="parent"
+                    [compareWith]="compareParent">
+          <mat-option [value]="null">Sans catégorie</mat-option>
+          <mat-option *ngFor="let childName of service.model"
+                      [value]="childName">
+            {{childName.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          {{service.form.get('parent').errors?.serverError}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Nom <span class="mdi mdi-format-list-bulleted-type"></span></mat-label>
+        <input matInput
+               required
+               formControlName="name"
+               placeholder="Ex: Vétement"
+               value="">
+        <mat-error>
+          {{service.form.get('name').errors?.serverError}}
+        </mat-error>
+      </mat-form-field>
+
+    </fieldset>
+
+  </mat-dialog-content>
+  <div mat-dialog-actions
+       class="flex-reverse">
+    <button mat-button
+            [disabled]="!service.form || service.form.invalid || service.loadingSource"
+            type="submit"
+            (click)="onSubmitClick()">
+      <ng-container *ngIf="!value">Ajouter</ng-container>
+      <ng-container *ngIf="value">Modifier</ng-container>
+    </button>
+    <button mat-button
+            type="button"
+            (click)="onCancelClick()">Annuler</button>
+  </div>
+</form>

@@ -42,6 +42,9 @@ import { BrandsDesktopComponent } from './_components/brands/brands-desktop/bran
 import { BrandsMobileComponent } from './_components/brands/brands-mobile/brands-mobile.component';
 import { SignupComponent } from './_components/sign/up/signup/signup.component';
 import { SigninComponent } from './_components/sign/in/signin/signin.component';
+import { CategoriesDesktopComponent } from './_components/categories/categories-desktop/categories-desktop.component';
+import { CategoriesMobileComponent } from './_components/categories/categories-mobile/categories-mobile.component';
+import { CategoryCreateComponent } from './_components/categories/category-create/category-create.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,9 @@ import { SigninComponent } from './_components/sign/in/signin/signin.component';
     BrandsMobileComponent,
     SigninComponent,
     SignupComponent,
+    CategoriesDesktopComponent,
+    CategoriesMobileComponent,
+    CategoryCreateComponent,
   ],
   imports: [
     BrowserModule,

@@ -66,6 +66,7 @@ class CategoryController extends AbstractFOSRestController
     private $formErrorSerializer;
 
     private $category = "category";
+    private $parent = "parent";
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -110,14 +111,15 @@ class CategoryController extends AbstractFOSRestController
     public function postAction(Request $request)
     {
         $data = $this->getDataFromJson($request, true);
-
+        $responses[] = $this->createOrUpdate($data, $this->parent, "CategoryController", false, false);
         $newEntity = new Category();
 
         $form = $this->createForm(CategoryType::class, $newEntity);
         $form->submit($data, false);
         $this->validationError(
             $form,
-            $this
+            $this,
+            $responses
         );
         $insertData = $form->getData();
         $this->entityManager->persist($insertData);
@@ -185,12 +187,16 @@ class CategoryController extends AbstractFOSRestController
      * , default="asc"
      * , description="La direction du tri.")
      * @QueryParam(name="sortBy"
-     * , requirements="(id)"
-     * , default="state"
+     * , requirements="(id|name)"
+     * , default="name"
      * , description="Le tri est organisé sur les attributs de la classe.")
      * @QueryParam(name="search"
      * , nullable=true
      * , description="Recherche dans la base sur les attributs de la classe.")
+     * @QueryParam(name="parentIsNull"
+     *  , requirements="(true|false)"
+     *  , nullable = true
+     *  , description="Récupère les catégories qui sont orphelins.")
      *
      * @param ParamFetcher $paramFetcher
      * @return View
@@ -261,10 +267,11 @@ class CategoryController extends AbstractFOSRestController
     public function putOrPatch(array $data, bool $clearMissing, string $id)
     {
         $existing = $this->getById($id);
-        $form = $this->createForm(Category::class, $existing);
+        $parent[] = $this->createOrUpdate($data, $this->parent, "CategoryController", false, false);
+        $form = $this->createForm(CategoryType::class, $existing);
 
         $form->submit($data, $clearMissing);
-        $this->validationError($form, $this);
+        $this->validationError($form, $this, $parent);
         $this->entityManager->flush();
 
         return $this->view(null, Response::HTTP_NO_CONTENT);

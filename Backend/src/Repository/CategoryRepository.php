@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use FOS\RestBundle\Request\ParamFetcher;
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
+    use AbstractRepository;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
+    }
+
+    public function findAllPagination(ParamFetcher $paramFetcher)
+    {
+        $search = $paramFetcher->get('search');
+        $parentIsNull = $paramFetcher->get('parentIsNull');
+        $query = $this->createQueryBuilder('e');
+        if ($search != null)
+            $query = $query->andWhere(
+                '(LOWER(e.name) LIKE :search)'
+            )
+                ->setParameter('search', "%" . addcslashes(strtolower($search), '%_') . '%');
+        if ($parentIsNull != null && $parentIsNull == "true")
+            $query = $query->andWhere('(e.parent is null)');
+        return $this->resultCount($query, $paramFetcher);
     }
 
     // /**

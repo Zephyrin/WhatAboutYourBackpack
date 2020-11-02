@@ -1,1 +1,11 @@
-<p>categories works!</p>
+<div class="container"
+     *ngIf="(isHandset$ | async) === true">
+  <!-- mode portable -->
+  <app-categories-mobile [service]="service"></app-categories-mobile>
+</div>
+
+<div class="container vertical-scroll"
+     *ngIf="(isHandset$ | async) !== true">
+  <!-- mode ordinateur -->
+  <app-categories-desktop [service]="service"></app-categories-desktop>
+</div>

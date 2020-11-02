@@ -141,17 +141,17 @@ trait HelperController
         ];
         $inError = !$form->isValid();
         if ($responses != null) {
-            foreach ($responses as $response => $field) {
+            foreach ($responses as $index => $field) {
                 $code = 200;
-                if ($response != null)
-                    $code = $response->getStatusCode();
+                if ($field[0] != null)
+                    $code = $field[0]->getStatusCode();
                 if ($code != 201 && $code != 200 && $code != 204) {
                     $inError = true;
-                    if ($response != null) {
-                        $errors = json_decode($response->getContent(), true);
+                    if ($field[0] != null) {
+                        $errors = json_decode($field[0]->getContent(), true);
                         if (isset($errors["errors"][0])) {
                             if (isset($data["errors"][0]["children"])) {
-                                $data["errors"][0]["children"][$field] = $errors["errors"][0];
+                                $data["errors"][0]["children"][$field[1]] = $errors["errors"][0];
                             }
                         }
                     }

@@ -16,14 +16,15 @@ class EquipmentType extends AbstractType
             ->add('uri')
             ->add('category')
             ->add('brand')
-            ->add('createdBy')
-        ;
+            ->add('createdBy');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Equipment::class,
+            'allow_extra_fields' => false,
+            'csrf_protection'    => false,
         ]);
     }
 }

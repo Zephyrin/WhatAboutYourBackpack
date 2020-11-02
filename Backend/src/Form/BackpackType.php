@@ -14,14 +14,15 @@ class BackpackType extends AbstractType
         $builder
             ->add('name')
             ->add('user')
-            ->add('equipments')
-        ;
+            ->add('equipments');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Backpack::class,
+            'allow_extra_fields' => false,
+            'csrf_protection'    => false,
         ]);
     }
 }
