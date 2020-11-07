@@ -2,7 +2,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableComponent } from '@app/_components/helpers/table/table.component';
 import { CategoryCreateComponent } from './../category-create/category-create.component';
 import { ChildBaseComponent } from '@app/_components/child-base-component';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-categories-desktop',

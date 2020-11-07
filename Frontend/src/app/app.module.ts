@@ -18,7 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatSelectModule } from '@angular/material/select';
@@ -45,6 +45,7 @@ import { SigninComponent } from './_components/sign/in/signin/signin.component';
 import { CategoriesDesktopComponent } from './_components/categories/categories-desktop/categories-desktop.component';
 import { CategoriesMobileComponent } from './_components/categories/categories-mobile/categories-mobile.component';
 import { CategoryCreateComponent } from './_components/categories/category-create/category-create.component';
+import { SubTableComponent } from './_components/helpers/sub-table/sub-table.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { CategoryCreateComponent } from './_components/categories/category-creat
     CategoriesDesktopComponent,
     CategoriesMobileComponent,
     CategoryCreateComponent,
+    SubTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +100,10 @@ import { CategoryCreateComponent } from './_components/categories/category-creat
     DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
   ],
   bootstrap: [AppComponent]
 })

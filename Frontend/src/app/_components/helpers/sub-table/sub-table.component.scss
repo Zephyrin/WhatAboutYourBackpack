@@ -1,3 +1,7 @@
+:host {
+  width: 100%;
+}
+
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
@@ -46,11 +50,11 @@ tr:active, tr:hover {
   background: whitesmoke;
 }
 
-.example-element-detail {
+.element-detail {
   overflow: hidden;
   display: flex;
 }
 
-tr.example-detail-row {
+tr.detail-row {
   height: 0;
 }

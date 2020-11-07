@@ -11,7 +11,7 @@ import { Component, OnDestroy } from '@angular/core';
   templateUrl: './category-create.component.html',
   styleUrls: ['./category-create.component.scss']
 })
-export class CategoryCreateComponent extends ChildCreateFormBaseComponent implements OnDestroy {
+export class CategoryCreateComponent extends ChildCreateFormBaseComponent {
   private serviceSubscription: Subscription;
   constructor(
     public dialogRef: MatDialogRef<CategoryCreateComponent>,
@@ -25,7 +25,7 @@ export class CategoryCreateComponent extends ChildCreateFormBaseComponent implem
     });
   }
 
-  ngOnDestroy(): void {
+  public destroy(): void {
     if (this.serviceSubscription) { this.serviceSubscription.unsubscribe(); }
   }
 

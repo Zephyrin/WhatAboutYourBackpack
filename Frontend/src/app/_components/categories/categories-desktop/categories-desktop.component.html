@@ -9,7 +9,19 @@
     </div>
     <app-table [service]="service"
                [allowSelected]="true"
+               [subTable]="SubTable"
+               [expandedDetailName]="'subCategories'"
                #Table></app-table>
     <app-pagination [paginate]="service.paginate"></app-pagination>
   </div>
 </div>
+
+<ng-template #SubTable
+             let-source="source">
+  <app-sub-table [service]="service"
+                 [subTable]="SubTable"
+                 [source]="source"
+                 [expandedDetailName]="'subCategories'"
+                 [componentOrTemplateRef]="'CategoryCreate'"
+                 [allowSelected]="true"></app-sub-table>
+</ng-template>
