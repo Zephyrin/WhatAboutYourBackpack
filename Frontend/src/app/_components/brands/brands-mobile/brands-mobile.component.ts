@@ -1,5 +1,4 @@
-import { BrandCreateComponent } from '@app/_components/brands/brand-create/brand-create.component';
-
+import { ComponentCreateRegistryService } from '@app/_services/component-create-registry.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChildBaseComponent } from '@app/_components/child-base-component';
 import { Component, AfterViewInit } from '@angular/core';
@@ -9,9 +8,9 @@ import { Component, AfterViewInit } from '@angular/core';
   templateUrl: './brands-mobile.component.html',
   styleUrls: ['./brands-mobile.component.scss']
 })
-export class BrandsMobileComponent extends ChildBaseComponent<BrandCreateComponent> implements AfterViewInit {
-  constructor(public dialog: MatDialog) {
-    super(dialog, BrandCreateComponent);
+export class BrandsMobileComponent extends ChildBaseComponent implements AfterViewInit {
+  constructor(public dialog: MatDialog, private createRegistry: ComponentCreateRegistryService) {
+    super(dialog, createRegistry);
   }
 
   ngAfterViewInit(): void {

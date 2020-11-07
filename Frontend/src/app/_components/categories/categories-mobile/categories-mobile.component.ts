@@ -1,4 +1,4 @@
-import { CategoryCreateComponent } from './../category-create/category-create.component';
+import { ComponentCreateRegistryService } from '@app/_services/component-create-registry.service';
 import { ChildBaseComponent } from '@app/_components/child-base-component';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, AfterViewInit } from '@angular/core';
@@ -8,9 +8,9 @@ import { Component, AfterViewInit } from '@angular/core';
   templateUrl: './categories-mobile.component.html',
   styleUrls: ['./categories-mobile.component.scss']
 })
-export class CategoriesMobileComponent extends ChildBaseComponent<CategoryCreateComponent> implements AfterViewInit {
-  constructor(public dialog: MatDialog) {
-    super(dialog, CategoryCreateComponent);
+export class CategoriesMobileComponent extends ChildBaseComponent implements AfterViewInit {
+  constructor(public dialog: MatDialog, private createRegistry: ComponentCreateRegistryService) {
+    super(dialog, createRegistry);
   }
 
   ngAfterViewInit(): void {

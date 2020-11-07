@@ -1,9 +1,9 @@
+import { ComponentCreateRegistryService } from '@app/_services/component-create-registry.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChildBaseComponent } from '@app/_components/child-base-component';
 import { ValueViewChild } from '@app/_services/iservice';
 import { MatSort } from '@angular/material/sort';
-import { IService } from '@app/_services/iservice';
-import { Component, OnInit, Input, ViewChild, AfterViewInit, ContentChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,7 +22,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ]),
   ],
 })
-export class TableComponent extends ChildBaseComponent<any> implements OnInit, AfterViewInit {
+export class TableComponent extends ChildBaseComponent implements OnInit, AfterViewInit {
   @Input() allowSelected = false;
   @Input() subTable = undefined;
   @Input() expandedDetailName: string;
@@ -32,8 +32,8 @@ export class TableComponent extends ChildBaseComponent<any> implements OnInit, A
   selected: any | null;
 
   constructor(
-    public dialog: MatDialog) {
-    super(dialog, undefined);
+    public dialog: MatDialog, private createRegistry: ComponentCreateRegistryService) {
+    super(dialog, createRegistry);
   }
 
   ngOnInit(): void {

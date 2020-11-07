@@ -1,11 +1,13 @@
 <div class="container"
      *ngIf="(isHandset$ | async) === true">
   <!-- mode portable -->
-  <app-categories-mobile [service]="service"></app-categories-mobile>
+  <app-categories-mobile [service]="service"
+                         [createComponent]="'CategoryCreate'"></app-categories-mobile>
 </div>
 
 <div class="container vertical-scroll"
      *ngIf="(isHandset$ | async) !== true">
   <!-- mode ordinateur -->
-  <app-categories-desktop [service]="service"></app-categories-desktop>
+  <app-categories-desktop [service]="service"
+                          [createComponent]="'CategoryCreate'"></app-categories-desktop>
 </div>

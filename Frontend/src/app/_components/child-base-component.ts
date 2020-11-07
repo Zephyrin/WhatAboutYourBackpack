@@ -4,18 +4,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { IService } from '@app/_services/iservice';
 import { Subscription } from 'rxjs';
 import { OnInit, OnDestroy, Input, TemplateRef, Component } from '@angular/core';
-import { ComponentType } from '@angular/cdk/portal';
+import { ComponentCreateRegistryService } from '@app/_services/component-create-registry.service';
 
-export class ChildBaseComponent<T> implements OnInit, OnDestroy {
+export class ChildBaseComponent implements OnInit, OnDestroy {
   private serviceEndUpdateSubscription: Subscription;
   @Input() service: IService;
+  @Input() createComponent: string;
   constructor(
     public dialog: MatDialog,
-    protected componentOrTemplateRef: ComponentType<T> | TemplateRef<T>) { }
-
-  public UpdateComponentOrTemplateRef(componentOrTemplateRef: ComponentType<T> | TemplateRef<T>) {
-    this.componentOrTemplateRef = componentOrTemplateRef;
-  }
+    private compCreateRegistry: ComponentCreateRegistryService) { }
 
   public ngOnInit(): void {
     this.serviceEndUpdateSubscription = this.service.endUpdate.subscribe(data => {
@@ -35,7 +32,7 @@ export class ChildBaseComponent<T> implements OnInit, OnDestroy {
   }
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(this.componentOrTemplateRef);
+    const dialogRef = this.dialog.open(this.compCreateRegistry.getComponentByName(this.createComponent));
     (dialogRef.componentInstance as unknown as ChildCreateFormBaseComponent).create();
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -44,7 +41,7 @@ export class ChildBaseComponent<T> implements OnInit, OnDestroy {
   }
 
   openUpdateDialog(element: any): void {
-    const dialogRef = this.dialog.open(this.componentOrTemplateRef);
+    const dialogRef = this.dialog.open(this.compCreateRegistry.getComponentByName(this.createComponent));
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
       }
