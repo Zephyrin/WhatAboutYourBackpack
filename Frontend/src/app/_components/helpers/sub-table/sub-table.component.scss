@@ -58,3 +58,11 @@ tr:active, tr:hover {
 tr.detail-row {
   height: 0;
 }
+
+.service-selected-row {
+  background: lightgreen!important;
+}
+
+.selected-row {
+  background: whitesmoke;
+}

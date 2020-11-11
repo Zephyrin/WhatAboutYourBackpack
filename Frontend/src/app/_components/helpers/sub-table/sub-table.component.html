@@ -44,12 +44,12 @@
         *matCellDef="let row">
       <div class="action-container">
         <button mat-icon-button
-                (click)="openUpdateDialog(row)"
+                (click)="openUpdateDialog($event, row)"
                 [attr.aria-label]="'Met à jour ' + service.getDisplay('name',row)">
           <mat-icon>update</mat-icon>
         </button>
         <button mat-icon-button
-                (click)="openDeleteDialog(row, service.getDisplay('name', row))"
+                (click)="openDeleteDialog($event, row, service.getDisplay('name', row))"
                 [attr.aria-label]="'Supprime ' + service.getDisplay('name',row)">
           <mat-icon>delete</mat-icon>
         </button>
@@ -59,6 +59,8 @@
   <tr mat-row
       *matRowDef="let row; columns: service.displayedColumns;"
       [class.expanded-row]="selected?.id === row?.id"
+      [class.selected-row]="selected?.id === row?.id"
+      [class.service-selected-row]="service.selected?.id === row?.id"
       (click)="clickOnRow(row)"></tr>
   <ng-container *ngIf="subTable !== undefined">
     <tr mat-row

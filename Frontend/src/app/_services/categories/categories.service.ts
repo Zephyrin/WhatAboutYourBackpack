@@ -33,6 +33,30 @@ export class CategoriesService extends CService<Category> {
     return new Category(value);
   }
 
+  protected appendNewValue(data: Category, model: Category) {
+    if (this.selected) {
+      this.selected.subCategories.push(new Category(data));
+    } else {
+      this.model.push(new Category(data));
+    }
+    this.end(true, undefined, model);
+  }
+
+  protected sliceWorkingOn() {
+    if (this.workingOn.parent) {
+      const index = this.workingOn.parent.subCategories.indexOf(this.workingOn);
+      if (index >= 0) {
+        this.workingOn.parent.subCategories.splice(index, 1);
+      }
+    } else {
+      const index = this.model.indexOf(this.workingOn);
+      if (index >= 0) {
+        this.model.splice(index, 1);
+      }
+    }
+    this.end(true);
+  }
+
   public endUpdateOk(value: Category): void {
     if (value.parent) {
       const index = this.model.findIndex(elt => elt.id === value.id);

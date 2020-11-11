@@ -350,8 +350,7 @@ export abstract class CService<T> implements IService {
     if (model[name] === undefined || model[name] === '') {
       const dataToSent = this.createCpy(model);
       this.http.create(dataToSent).subscribe(data => {
-        this.model.push(this.createCpy(data));
-        this.end(true, undefined, model);
+        this.appendNewValue(data, model);
       }, error => {
         this.end(true, error);
       });
@@ -365,6 +364,11 @@ export abstract class CService<T> implements IService {
         this.end(true, error);
       });
     }
+  }
+
+  protected appendNewValue(data: T, model: T) {
+    this.model.push(this.createCpy(data));
+    this.end(true, undefined, model);
   }
 
   protected delete(model: T) {

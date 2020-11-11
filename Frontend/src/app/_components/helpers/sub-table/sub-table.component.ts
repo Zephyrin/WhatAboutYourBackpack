@@ -1,4 +1,4 @@
-import { ComponentCreateRegistryService } from './../../../_services/component-create-registry.service';
+import { ComponentCreateRegistryService } from '@app/_services/component-create-registry.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChildCreateFormBaseComponent } from '@app/_components/child-create-form-base-component';
 import { RemoveDialogComponent } from '@app/_components/helpers/remove-dialog/remove-dialog.component';
@@ -72,7 +72,8 @@ export class SubTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openUpdateDialog(element: any): void {
+  openUpdateDialog(evt, element: any): void {
+    evt.stopPropagation();
     const dialogRef = this.dialog.open(this.compCreateRegistry.getComponentByName(this.componentOrTemplateRef));
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -83,7 +84,8 @@ export class SubTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openDeleteDialog(element: any, title: string): void {
+  openDeleteDialog(evt, element: any, title: string): void {
+    evt.stopPropagation();
     const dialogRef = this.dialog.open(RemoveDialogComponent);
     (dialogRef.componentInstance as RemoveDialogComponent).title = title;
     dialogRef.afterClosed().subscribe(result => {

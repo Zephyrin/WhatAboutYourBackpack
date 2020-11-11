@@ -14,7 +14,7 @@ export class Category {
         category.subCategories.forEach(elt => {
           const child = new Category(elt);
           child.parent = this;
-          this.subCategories.push(new Category(elt));
+          this.subCategories.push(child);
         });
       }
     }

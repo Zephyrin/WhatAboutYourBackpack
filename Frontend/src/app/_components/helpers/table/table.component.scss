@@ -46,11 +46,19 @@ tr:active, tr:hover {
   background: whitesmoke;
 }
 
-.example-element-detail {
+.element-detail {
   overflow: hidden;
   display: flex;
 }
 
-tr.example-detail-row {
+tr.detail-row {
   height: 0;
+}
+
+.service-selected-row {
+  background: lightgreen!important;
+}
+
+.selected-row {
+  background: whitesmoke;
 }
