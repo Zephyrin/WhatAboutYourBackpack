@@ -14,6 +14,7 @@ class CharacteristicType extends AbstractType
         $builder
             ->add('name')
             ->add('value')
+            ->add('unit')
             ->add('equipment')
             ->add('parent');
     }

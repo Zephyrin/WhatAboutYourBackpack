@@ -29,7 +29,7 @@
         *matCellDef="let element"
         [attr.colspan]="service.displayedColumns.length">
       <div class="element-detail"
-           [@detailExpand]="element == selected && service.get(expandedDetailName, element)?.length > 0 ? 'expanded' : 'collapsed'">
+           [@detailExpand]="element === selected && expandedDetail?.length > 0 || (expandedDetail != 0 && expandedDetail !== undefined)  ? 'expanded' : 'collapsed'">
         <ng-container
                       *ngTemplateOutlet="subTable; context: { $implicit: undefined, source: service.get(expandedDetailName, element)} ">
         </ng-container>

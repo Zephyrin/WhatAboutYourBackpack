@@ -1,0 +1,106 @@
+<h1 mat-dialog-title>Équipements<span class="mdi mdi-hiking"></span></h1>
+<form [formGroup]="service.form"
+      *ngIf="service.form"
+      (ngSubmit)="onSubmitClick()">
+  <mat-dialog-content>
+    <fieldset [disabled]="service.loadingSource"
+              [ngStyle]="{'pointer-events':service.loadingSource ? 'none' : 'auto' }">
+
+      <mat-form-field class="full-width">
+        <mat-label>Nom <span class="mdi mdi-hiking"></span></mat-label>
+        <input matInput
+               required
+               formControlName="name"
+               placeholder="Ex: Jetboil"
+               value="">
+        <mat-error>
+          {{service.form.get('name').errors?.serverError}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-chip-list #chipList
+                       aria-label="Sélection d'une catégorie">
+          <mat-chip [selectable]="true"
+                    [removable]="true"
+                    (removed)="remove(service.form.controls.category?.value?.name)"
+                    *ngIf="service.form.controls.category?.value">
+            {{service.form.controls.category?.value?.name}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Catégorie"
+                 #CategoryInput
+                 formControlName="category"
+                 [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <input type="text"
+               matInput
+               formControlName="category"
+               placeholder="Catégory"
+               [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption
+                          #auto="matAutocomplete">
+          <cdk-tree [dataSource]="dataSource"
+                    [treeControl]="treeControl">
+            <cdk-nested-tree-node *cdkTreeNodeDef="let node"
+                                  class="tree-node">
+              <mat-option [value]="node">
+                <button mat-icon-button
+                        disabled></button>
+                {{node.name}}
+              </mat-option>
+            </cdk-nested-tree-node>
+            <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild"
+                                  class="tree-node">
+              <mat-option [value]="node">
+                <button mat-icon-button
+                        [attr.aria-label]="'Toggle ' + node.name"
+                        cdkTreeNodeToggle>
+
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                  </mat-icon>
+                </button>
+                {{node.name}}
+              </mat-option>
+              <div [class.tree-invisible]="!treeControl.isExpanded(node)">
+                <ng-container cdkTreeNodeOutlet></ng-container>
+              </div>
+            </cdk-nested-tree-node>
+          </cdk-tree>
+        </mat-autocomplete>
+
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Marque</mat-label>
+        <mat-select formControlName="brand"
+                    [compareWith]="compareId"
+                    #brand>
+          <mat-option *ngFor="let brand of brandService.model"
+                      [value]="brand">
+            {{brand.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          {{service.form.get('brand').errors?.serverError}}
+        </mat-error>
+      </mat-form-field>
+    </fieldset>
+
+  </mat-dialog-content>
+  <div mat-dialog-actions
+       class="flex-reverse">
+    <button mat-button
+            [disabled]="!service.form || service.form.invalid || service.loadingSource"
+            type="submit"
+            (click)="onSubmitClick()">
+      <ng-container *ngIf="!value">Ajouter</ng-container>
+      <ng-container *ngIf="value">Modifier</ng-container>
+    </button>
+    <button mat-button
+            type="button"
+            (click)="onCancelClick()">Annuler</button>
+  </div>
+</form>

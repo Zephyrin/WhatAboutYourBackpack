@@ -1,0 +1,24 @@
+<div class="tab">
+  <div class="auto">
+    <div class="inline-header">
+      <button mat-button
+              (click)="openCreateDialog($event)"
+              [matTooltip]="'Ajouter un équipement'">
+        <span class="mdi mdi-plus-circle"></span>
+      </button>
+    </div>
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let element of service.model">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{element.name}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a [attr.href]="service.getUrl(element.uri)"
+           target="_blank"
+           rel="noopener noreferrer">{{element.uri}}</a>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+  </div>
+</div>

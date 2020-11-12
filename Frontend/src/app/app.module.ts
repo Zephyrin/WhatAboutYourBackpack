@@ -25,6 +25,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CdkTreeModule } from '@angular/cdk/tree';
+
 import { DatePipe } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RemoveDialogComponent } from './_components/helpers/remove-dialog/remove-dialog.component';
@@ -46,6 +49,9 @@ import { CategoriesDesktopComponent } from './_components/categories/categories-
 import { CategoriesMobileComponent } from './_components/categories/categories-mobile/categories-mobile.component';
 import { CategoryCreateComponent } from './_components/categories/category-create/category-create.component';
 import { SubTableComponent } from './_components/helpers/sub-table/sub-table.component';
+import { EquipmentsDesktopComponent } from './_components/equipments/equipments-desktop/equipments-desktop.component';
+import { EquipmentsMobileComponent } from './_components/equipments/equipments-mobile/equipments-mobile.component';
+import { EquipmentCreateComponent } from './_components/equipments/equipment-create/equipment-create.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +73,9 @@ import { SubTableComponent } from './_components/helpers/sub-table/sub-table.com
     CategoriesMobileComponent,
     CategoryCreateComponent,
     SubTableComponent,
+    EquipmentsDesktopComponent,
+    EquipmentsMobileComponent,
+    EquipmentCreateComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,7 +103,9 @@ import { SubTableComponent } from './_components/helpers/sub-table/sub-table.com
     MatExpansionModule,
     MatChipsModule,
     DragDropModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    CdkTreeModule,
+    MatAutocompleteModule,
   ],
   providers: [
     DatePipe,

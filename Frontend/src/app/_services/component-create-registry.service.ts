@@ -1,3 +1,4 @@
+import { EquipmentCreateComponent } from './../_components/equipments/equipment-create/equipment-create.component';
 import { ChildCreateFormBaseComponent } from '@app/_components/child-create-form-base-component';
 import { ComponentType } from '@angular/cdk/portal';
 import { BrandCreateComponent } from '@app/_components/brands/brand-create/brand-create.component';
@@ -17,6 +18,8 @@ export class ComponentCreateRegistryService {
         return CategoryCreateComponent;
       case 'BrandCreate':
         return BrandCreateComponent;
+      case 'EquipmentCreate':
+        return EquipmentCreateComponent;
       default: throw new Error(name + ' n\'est pas définie dans ComponentCreateRegistryService. Je ne sais quelle fenêtre afficher...');
     }
   }

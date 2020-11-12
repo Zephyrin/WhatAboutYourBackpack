@@ -1,0 +1,141 @@
+<div class="tab">
+  <div class="auto">
+    <div class="inline-header">
+      <button mat-button
+              (click)="openCreateDialog($event)"
+              [matTooltip]="'Ajouter une nouvelle catégorie'">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+    <app-table [service]="service"
+               [allowSelected]="true"
+               [subTable]="SubTable"
+               [expandedDetailName]="'this'"
+               [createComponent]="'EquipmentCreate'"
+               #Table></app-table>
+    <app-pagination [paginate]="service.paginate"></app-pagination>
+  </div>
+</div>
+
+<ng-template #SubTable
+             let-source="source">
+  <mat-list>
+    <mat-list-item *ngFor="let characteristic of source.characteristics">
+      <div *ngIf="!equipmentService.isSameCharacteristicThanForm(characteristic)">
+        {{characteristic.name}} : {{characteristic.value}} {{characteristic.unit}} <button
+                *ngIf="equipmentService.updateCharacteristic"
+                (click)="equipmentService.updateCharacteristicClick(source, characteristic)"
+                mat-icon-button><span class="mdi mdi-pencil-outline"></span></button>
+      </div>
+      <div *ngIf="equipmentService.isSameCharacteristicThanForm(characteristic)">
+        <form [formGroup]="equipmentService.characteristicForm"
+              (ngSubmit)="equipmentService.updateCharacteristicSubmit(characteristic)">
+          <div class="inline-characteristic-form">
+            <mat-form-field class="full-width">
+              <mat-label>Libellé</mat-label>
+              <input matInput
+                     formControlName="name"
+                     #characteristicLabel
+                     placeholder="Ex. : Prix"
+                     value="">
+              <mat-error>
+                {{equipmentService.characteristicForm.get('name').errors?.serverError}}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <mat-label>Valeur</mat-label>
+              <input matInput
+                     formControlName="value"
+                     #characteristicValue
+                     placeholder="Ex. : 37">
+              <mat-error>
+                {{equipmentService.characteristicForm.get('value').errors?.serverError}}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Unité</mat-label>
+              <input matInput
+                     formControlName="unit"
+                     #characteristicValue
+                     placeholder="Ex. : €">
+              <mat-error>
+                {{equipmentService.characteristicForm.get('unit').errors?.serverError}}
+              </mat-error>
+            </mat-form-field>
+            <button mat-icon-button
+                    type="submit"
+                    [disabled]="!equipmentService.characteristicForm.valid"
+                    (ngSubmit)="equipmentService.updateCharacteristicSubmit(characteristic)"><span
+                    class="mdi mdi-content-save"></span></button>
+            <button mat-icon-button
+                    type="button"
+                    (click)="equipmentService.cancelCharacteristic()"><span
+                    class="mdi mdi-marker-cancel"></span></button>
+          </div>
+        </form>
+      </div>
+    </mat-list-item>
+    <mat-list-item *ngIf="equipmentService.addCharacteristic">
+      <form [formGroup]="equipmentService.characteristicForm"
+            (ngSubmit)="equipmentService.saveNewCharacteristic(source)">
+        <div class="inline-characteristic-form">
+          <mat-form-field class="full-width">
+            <mat-label>Libellé</mat-label>
+            <input matInput
+                   formControlName="name"
+                   #characteristicLabel
+                   placeholder="Ex. : Prix"
+                   value="">
+            <mat-error>
+              {{equipmentService.characteristicForm.get('name').errors?.serverError}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Valeur</mat-label>
+            <input matInput
+                   formControlName="value"
+                   #characteristicValue
+                   placeholder="Ex. : 37">
+            <mat-error>
+              {{equipmentService.characteristicForm.get('value').errors?.serverError}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Unité</mat-label>
+            <input matInput
+                   formControlName="unit"
+                   #characteristicValue
+                   placeholder="Ex. : €">
+            <mat-error>
+              {{equipmentService.characteristicForm.get('unit').errors?.serverError}}
+            </mat-error>
+          </mat-form-field>
+          <button mat-icon-button
+                  type="submit"
+                  [disabled]="!equipmentService.characteristicForm.valid"
+                  (ngSubmit)="equipmentService.saveNewCharacteristic(source)"><span
+                  class="mdi mdi-content-save"></span></button>
+          <button mat-icon-button
+                  type="button"
+                  (click)="equipmentService.cancelCharacteristic()"><span class="mdi mdi-marker-cancel"></span></button>
+        </div>
+      </form>
+
+    </mat-list-item>
+  </mat-list>
+  <div class="tools-to-right">
+    <button mat-icon-button
+            (click)="equipmentService.addCharacteristicClick(source)"><span
+            class="mdi mdi-shape-polygon-plus"></span></button>
+    <button mat-icon-button
+            *ngIf="!equipmentService.updateCharacteristic"
+            (click)="equipmentService.updateCharacteristicsClick(source)"><span
+            class="mdi mdi-pencil-outline"></span></button>
+    <button mat-icon-button
+            *ngIf="equipmentService.updateCharacteristic"
+            (click)="equipmentService.updateCharacteristicsClick(source)"><span
+            class="mdi mdi-pencil-off-outline"></span></button>
+  </div>
+</ng-template>

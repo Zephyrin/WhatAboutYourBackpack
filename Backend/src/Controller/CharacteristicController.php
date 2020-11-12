@@ -8,7 +8,7 @@ use App\Repository\CharacteristicRepository;
 
 use App\Controller\Helpers\HelperController;
 use App\Controller\Helpers\HelperForwardController;
-
+use App\Repository\EquipmentRepository;
 use App\Serializer\FormErrorSerializer;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -59,6 +59,10 @@ class CharacteristicController extends AbstractFOSRestController
      * @var CharacteristicRepository
      */
     private $repository;
+    /**
+     * @var EquipmentRepository
+     */
+    private $equipmentRepository;
 
     /**
      * @var FormErrorSerializer
@@ -68,18 +72,22 @@ class CharacteristicController extends AbstractFOSRestController
     public function __construct(
         EntityManagerInterface $entityManager,
         CharacteristicRepository $repository,
+        EquipmentRepository $equipmentRepository,
         FormErrorSerializer $formErrorSerializer
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
+        $this->equipmentRepository = $equipmentRepository;
         $this->formErrorSerializer = $formErrorSerializer;
     }
 
     /**
-     * @Route("/characteristic",
+     * @Route("/equipment/{eqId}/characteristic",
      * name="api_characteristic_post",
-     * methods={"POST"}
-     * )
+     * methods={"POST"},
+     * requirements={
+     *  "eqId": "\d+"
+     * })
      *
      * @SWG\Post(
      * consumes={"application/json"},
@@ -102,13 +110,15 @@ class CharacteristicController extends AbstractFOSRestController
      * )
      * )
      * @param Request $request
+     * @param string $eqId
      * @return View|JsonResponse
      * @throws ExceptionInterface
      */
-    public function postAction(Request $request)
+    public function postAction(Request $request, string $eqId)
     {
         $data = $this->getDataFromJson($request, true);
-
+        $equipment = $this->getEquipmentById($eqId);
+        $data['equipment'] = $equipment->getId();
         $newEntity = new Characteristic();
 
         $form = $this->createForm(CharacteristicType::class, $newEntity);
@@ -119,6 +129,7 @@ class CharacteristicController extends AbstractFOSRestController
         );
 
         $insertData = $form->getData();
+        $equipment->addCharacteristic($insertData);
         $this->entityManager->persist($insertData);
 
         $this->entityManager->flush();
@@ -201,11 +212,12 @@ class CharacteristicController extends AbstractFOSRestController
     }
 
     /**
-     * @Route("/characteristic/{id}",
+     * @Route("/equipment/{eqId}/characteristic/{id}",
      * name="api_characteristic_patch",
      * methods={"PATCH"},
      * requirements={
-     * "id": "\d+"
+     * "id": "\d+",
+     * "eqId": "\d+"
      * })
      *
      * @SWG\Patch(
@@ -240,12 +252,14 @@ class CharacteristicController extends AbstractFOSRestController
      * )
      * )
      * @param string $id
+     * @param string $eqId
      * @param Request $request
      * @return View|JsonResponse
      * @throws ExceptionInterface
      */
-    public function patchAction(Request $request, string $id)
+    public function patchAction(Request $request, string $id, string $eqId)
     {
+        $eq = $this->getEquipmentById($eqId);
         return $this->putOrPatch($this->getDataFromJson($request, true), false, $id);
     }
 
@@ -260,7 +274,7 @@ class CharacteristicController extends AbstractFOSRestController
     public function putOrPatch(array $data, bool $clearMissing, string $id)
     {
         $existing = $this->getById($id);
-        $form = $this->createForm(Characteristic::class, $existing);
+        $form = $this->createForm(CharacteristicType::class, $existing);
 
         $form->submit($data, $clearMissing);
         $this->validationError($form, $this);
@@ -318,6 +332,21 @@ class CharacteristicController extends AbstractFOSRestController
     private function getById(string $id)
     {
         $data = $this->repository->find($id);
+        if (null === $data) {
+            throw new NotFoundHttpException();
+        }
+        return $data;
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return Equipment
+     * @throws NotFoundHttpException
+     */
+    private function getEquipmentById(string $id)
+    {
+        $data = $this->equipmentRepository->find($id);
         if (null === $data) {
             throw new NotFoundHttpException();
         }

@@ -45,6 +45,11 @@ class Characteristic
      */
     private $characteristic;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $unit;
+
     public function __construct()
     {
         $this->characteristic = new ArrayCollection();
@@ -130,6 +135,18 @@ class Characteristic
                 $characteristic->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?string $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

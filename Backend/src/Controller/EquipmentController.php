@@ -114,11 +114,12 @@ class EquipmentController extends AbstractFOSRestController
      */
     public function postAction(Request $request)
     {
+        $connectUser = $this->getUser();
         $data = $this->getDataFromJson($request, true);
-        $responseChildren[] = $this->createOrUpdate($data, $this->category, "Category");
-        $responseChildren[] = $this->createOrUpdate($data, $this->brand, "Brand");
+        $responseChildren[] = $this->createOrUpdate($data, $this->category, "CategoryController", false, false);
+        $responseChildren[] = $this->createOrUpdate($data, $this->brand, "BrandController", false, false);
         $newEntity = new Equipment();
-
+        $newEntity->setCreatedBy($connectUser);
         $form = $this->createForm(EquipmentType::class, $newEntity);
         $form->submit($data, false);
 
@@ -194,8 +195,8 @@ class EquipmentController extends AbstractFOSRestController
      * , default="asc"
      * , description="La direction du tri.")
      * @QueryParam(name="sortBy"
-     * , requirements="(id)"
-     * , default="state"
+     * , requirements="(id|name)"
+     * , default="name"
      * , description="Le tri est organisé sur les attributs de la classe.")
      * @QueryParam(name="search"
      * , nullable=true

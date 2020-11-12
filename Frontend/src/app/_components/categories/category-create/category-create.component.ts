@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CategoriesService } from '@app/_services/categories/categories.service';
 import { ChildCreateFormBaseComponent } from '@app/_components/child-create-form-base-component';
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-category-create',

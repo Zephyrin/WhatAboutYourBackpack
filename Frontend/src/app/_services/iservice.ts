@@ -273,6 +273,9 @@ export abstract class CService<T> implements IService {
     return this.errors.hasAtLeastOne;
   }
   public get(name: string, value: any | undefined): any {
+    if (name === 'this') {
+      return value;
+    }
     if (value && value[name]) {
       return value[name];
     }
